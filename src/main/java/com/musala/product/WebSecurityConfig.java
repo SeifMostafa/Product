@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -22,14 +23,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService);
     }
 
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.httpBasic();
         http.authorizeRequests().
-                mvcMatchers(HttpMethod.GET, "/productapi/products").hasAnyRole("USER", "ADMIN").
-                mvcMatchers(HttpMethod.POST, "/productapi/products").hasAnyRole("ADMIN").
-                anyRequest().denyAll().and().csrf().disable();
+                mvcMatchers(HttpMethod.GET, "/productapi/products", "/index",
+                        "/showGetProduct", "/productDetails").
+                hasAnyRole("USER", "ADMIN").
+                mvcMatchers(HttpMethod.POST, "/getProduct").hasAnyRole("USER", "ADMIN").
+                mvcMatchers(HttpMethod.GET, "/createProduct", "/showCreateProduct", "/createResponse").hasAnyRole("ADMIN").
+                mvcMatchers(HttpMethod.POST, "/productapi/products", "/createProduct")
+                .hasAnyRole("ADMIN").
+                mvcMatchers("/", "/login", "/logout", "/showReg", "/registerUser").permitAll().
+                anyRequest().denyAll().and().csrf().disable().logout().logoutSuccessUrl("/");
+
+
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {

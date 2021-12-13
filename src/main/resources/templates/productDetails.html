@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Details</title>
+</head>
+<body>
+<h2>Product Details</h2>
+Name:<b th:text="${product.getName()}"></b><br/>
+Price:<b th:text="${product.getPrice()}"></b><br/>
+Description:<b th:text="${product.getDescription()}"></b><br/>
+</body>
+</html>
