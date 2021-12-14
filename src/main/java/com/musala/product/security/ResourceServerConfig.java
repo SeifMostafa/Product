@@ -7,11 +7,11 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 
-import static com.musala.product.security.AuthorizationServerConfig.RESOURCE_ID;
 
 @Configuration
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+    public static final String RESOURCE_ID = "Product";
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
@@ -28,4 +28,5 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 anyRequest().denyAll().and().csrf().disable();
 
     }
+
 }
