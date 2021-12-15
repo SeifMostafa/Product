@@ -10,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping("/productapi")
+@CrossOrigin
 public class ProductRestController {
 
     @Autowired
